@@ -86,12 +86,12 @@ jobs:
           - host: windows-latest
             build: |
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" "pnpm@${PNPM_VERSION}"
-              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-pc-windows-msvc
+              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-pc-windows-msvc --features image-webp
             target: 'x86_64-pc-windows-msvc'
           - host: windows-latest
             build: |
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" "pnpm@${PNPM_VERSION}"
-              turbo run build-native-no-plugin --remote-cache-timeout 90 --summarize -- --release --target i686-pc-windows-msvc
+              turbo run build-native-no-plugin --remote-cache-timeout 90 --summarize -- --release --target i686-pc-windows-msvc --features image-webp
             target: 'i686-pc-windows-msvc'
           - host: ubuntu-latest
             target: 'x86_64-unknown-linux-gnu'
@@ -105,7 +105,7 @@ jobs:
               rustup target add x86_64-unknown-linux-gnu &&
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" && if [ ! -f $(dirname $(which yarn))/pnpm ]; then ln -s $(which yarn) $(dirname $(which yarn))/pnpm;fi &&
               unset CC_x86_64_unknown_linux_gnu && unset CC &&
-              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-unknown-linux-gnu &&
+              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-unknown-linux-gnu --features image-webp &&
               strip packages/next-swc/native/next-swc.*.node
           - host: ubuntu-latest
             target: 'x86_64-unknown-linux-musl'
@@ -117,7 +117,7 @@ jobs:
               rustup default "${RUST_TOOLCHAIN}" &&
               rustup target add x86_64-unknown-linux-musl &&
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" && if [ ! -f $(dirname $(which yarn))/pnpm ]; then ln -s $(which yarn) $(dirname $(which yarn))/pnpm;fi &&
-              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-unknown-linux-musl &&
+              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target x86_64-unknown-linux-musl --features image-webp &&
               strip packages/next-swc/native/next-swc.*.node
           - host: macos-latest
             target: 'aarch64-apple-darwin'
@@ -128,7 +128,7 @@ jobs:
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" && if [ ! -f $(dirname $(which yarn))/pnpm ]; then ln -s $(which yarn) $(dirname $(which yarn))/pnpm;fi
-              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target aarch64-apple-darwin
+              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target aarch64-apple-darwin --features image-webp
               strip -x packages/next-swc/native/next-swc.*.node
           - host: ubuntu-latest
             target: 'aarch64-unknown-linux-gnu'
@@ -156,13 +156,13 @@ jobs:
               rustup toolchain install "${RUST_TOOLCHAIN}" &&
               rustup default "${RUST_TOOLCHAIN}" &&
               rustup target add aarch64-unknown-linux-musl &&
-              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target aarch64-unknown-linux-musl &&
+              turbo run build-native-release --remote-cache-timeout 90 --summarize -- --target aarch64-unknown-linux-musl --features image-webp &&
               llvm-strip -x packages/next-swc/native/next-swc.*.node
           - host: windows-latest
             target: 'aarch64-pc-windows-msvc'
             build: |
               npm i -g "@napi-rs/cli@${NAPI_CLI_VERSION}" "turbo@${TURBO_VERSION}" "pnpm@${PNPM_VERSION}"
-              turbo run build-native-no-plugin-woa-release --remote-cache-timeout 90 --summarize -- --target aarch64-pc-windows-msvc
+              turbo run build-native-no-plugin-woa-release --remote-cache-timeout 90 --summarize -- --target aarch64-pc-windows-msvc --features image-webp
     name: stable - ${{ matrix.settings.target }} - node@16
     runs-on: ${{ matrix.settings.host }}
     env:
